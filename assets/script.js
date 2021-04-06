@@ -1,7 +1,7 @@
-var apiKey = "a5add3ea86991b37abdb4b61b61f9a2a";
-var todayEl = document.getElementById("today");
+var todayElement = document.getElementById("today");
 var forecastEl = document.getElementById("forecast");
 var searchButton = document.getElementById("search-button");
+//parses data from localstorage, empty array allows first time user functionality
 var cities = JSON.parse(localStorage.getItem("cities")) || [];
 var cityHistory = document.querySelector("#history");
 
@@ -9,6 +9,7 @@ searchButton.addEventListener("click", priorSearch);
 
 function priorSearch() {
   var searchValue = document.querySelector("#search-value").value;
+  // ! reverses the value and returns the opposite
   if (!cities.includes(searchValue)) {
     //unshift adds one or more elements to beginning of array and returns new length
     cities.unshift(searchValue);
@@ -25,15 +26,15 @@ function saveSearchValue() {
   cityHistory.innerHTML = "";
   var cities = JSON.parse(localStorage.getItem("cities")) || [];
   console.log(cities);
+  // for loop for the cities searched
   for (var i = 0; i < cities.length; i++) {
-    //creating the button
     var cityPrev = document.createElement("button");
-    // setting the attribute of the button
     cityPrev.setAttribute("location", cities[i]);
     //text content of button
     cityPrev.textContent = cities[i];
     // listening for click and getting attributes
     cityPrev.addEventListener("click", function () {
+      // gets the location values of the buttons
       currentClimate(this.getAttribute("location"));
       fiveDay(this.getAttribute("location"));
     });
@@ -70,37 +71,37 @@ function currentClimate(searchValue) {
       var templiEl = document.createElement("li");
       var windliEl = document.createElement("li");
       var humiliEl = document.createElement("li");
-
+      // setting the attribute for the weather icons
       iconEl.setAttribute("src", iconWeatherEl);
 
       uvIndex(latitude, longitude);
       // stylizing the console to make more readable and logging the various values
-      console.log("This is temperature---------");
+      console.log("temperature---------");
       console.log(temp);
-      console.log("This is wind speed----------");
+      console.log("wind speed----------");
       console.log(wind);
-      console.log("This is humidity----------");
+      console.log("humidity----------");
       console.log(humid);
-      console.log("This is the the city being searched---------");
+      console.log("city being searched---------");
       console.log(location);
-      console.log("This is longitude---------");
+      console.log("longitude---------");
       console.log(longitude);
-      console.log("This is latitude---------");
+      console.log("latitude---------");
       console.log(latitude);
-
-      $(todayEl).css({ border: "black solid 2px", padding: "10px" });
+      //stylizing the today container 
+      $(todayElement).css({ border: "black solid 2px", padding: "10px" });
       $(placeEl).text(location + " " + dateEl + "");
       $(windliEl).text("Windspeed: " + wind + " MPH");
       $(templiEl).text("Temperature: " + temp + "°F");
       $(humiliEl).text("Humidity: " + humid + " %");
 
-      todayEl.append(placeEl);
-      todayEl.append(iconEl);
-      todayEl.append(windliEl);
-      todayEl.append(templiEl);
-      todayEl.append(humiliEl);
+      todayElement.append(placeEl);
+      todayElement.append(iconEl);
+      todayElement.append(windliEl);
+      todayElement.append(templiEl);
+      todayElement.append(humiliEl);
     });
-  todayEl.innerHTML = "";
+  todayElement.innerHTML = "";
 }
 
 function fiveDay(searchValue) {
@@ -140,21 +141,21 @@ function fiveDay(searchValue) {
           dateFiveEl.textContent = date;
           cardEl.append(dateFiveEl);
 
-          var iconItem = document.createElement("img");
-          iconItem.setAttribute("src", iconUrl);
-          cardEl.append(iconItem);
+          var iconFiveEl = document.createElement("img");
+          iconFiveEl.setAttribute("src", iconUrl);
+          cardEl.append(iconFiveEl);
 
-          var tempItem = document.createElement("p");
-          tempItem.textContent = temp;
-          cardEl.append(tempItem);
+          var tempFiveEl = document.createElement("p");
+          tempFiveEl.textContent = temp;
+          cardEl.append(tempFiveEl);
 
-          var windItem = document.createElement("p");
-          windItem.textContent = wind;
-          cardEl.append(windItem);
+          var windFiveEl = document.createElement("p");
+          windFiveEl.textContent = wind;
+          cardEl.append(windFiveEl);
 
-          var humidityItem = document.createElement("p");
-          humidityItem.textContent = humidity;
-          cardEl.append(humidityItem);
+          var humidFiveEl = document.createElement("p");
+          humidFiveEl.textContent = humidity;
+          cardEl.append(humidFiveEl);
 
           forecastEl.append(cardEl);
 
@@ -165,7 +166,7 @@ function fiveDay(searchValue) {
 }
 
 function uvIndex(latitude, longitude) {
-  var uvURL =
+  var uviURL =
     "https://api.openweathermap.org/data/2.5/onecall?lat=" +
     latitude +
     "&lon=" +
@@ -173,7 +174,7 @@ function uvIndex(latitude, longitude) {
     "&appid=" +
     apiKey;
 
-  fetch(uvURL)
+  fetch(uviURL)
     .then(function (response) {
       return response.json();
     })
@@ -185,7 +186,7 @@ function uvIndex(latitude, longitude) {
 
       var uviEl = document.createElement("li");
       $(uviEl).text("UV Index: " + uviValue);
-      todayEl.append(uviEl);
+      todayElement.append(uviEl);
     });
 }
 saveSearchValue();
