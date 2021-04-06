@@ -2,8 +2,20 @@
     font-family: 'Arimo', sans-serif;
 }
 
-
 h1 {
     font-weight: bold;
 }
+
+.card {
+    background-color: rgb(33, 54, 117);
+    color: white;
+    margin-left: 10px;
+    padding: 5px;
+}
+
+.card img {
+    height: 42px;
+    width: 42px;
+}
+
 
